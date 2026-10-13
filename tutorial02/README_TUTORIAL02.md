@@ -33,15 +33,15 @@ source venv/bin/activate            # Windows: venv\Scripts\activate
 pip install "django>=5.2,<5.3" djangorestframework
 python manage.py migrate
 
-# Crear datos de prueba (usuario + libros con stock)
-python manage.py shell
->>> from django.contrib.auth import get_user_model
->>> from tienda_app.models import Libro, Inventario
->>> U = get_user_model(); u = U.objects.create_user("daniel", password="test1234")
->>> for t, p in [("Clean Code en Python",150.0),("Arquitectura Limpia",250.0)]:
-...     l = Libro.objects.create(titulo=t, precio=p); Inventario.objects.create(libro=l, cantidad=10)
->>> exit()
+# Crear datos de prueba (usuario + libros con stock) — UN SOLO COMANDO
+python manage.py seed_datos
 ```
+
+> 💡 El comando `seed_datos` crea el usuario `daniel` (password `test1234`) y
+> tres libros con inventario, de forma idempotente (no duplica si ya existen).
+> Evita el error de indentación que ocurre al escribir bucles `for` en el shell
+> interactivo. Si prefieres el shell manual, escribe cada línea por separado
+> (sin usar `for` de varias líneas).
 
 ### Ejecutar en modo MOCK (el que genera el `[DEBUG]`)
 
