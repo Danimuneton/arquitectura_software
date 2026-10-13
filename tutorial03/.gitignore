@@ -1,0 +1,13 @@
+# Entorno virtual
+venv/
+.venv/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Base de datos local (SQLite)
+db.sqlite3
+
+# NOTA: pagos_locales_*.log SÍ se versiona (evidencia requerida).
