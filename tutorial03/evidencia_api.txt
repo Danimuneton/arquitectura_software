@@ -1,0 +1,21 @@
+================================================================
+ EVIDENCIA Tutorial 03 - API REST con DRF (reutilizacion Service)
+ Estudiante: Daniel Muneton
+================================================================
+
+
+--- Stock inicial libro 1: 10 ---
+
+[PUERTA 1 - API] POST /api/v1/comprar/  payload libro_id=1
+  status: 201 | json: {"estado": "exito", "mensaje": "Orden creada. Total: 178.5"}
+  stock libro 1 ahora: 9
+
+[PUERTA 2 - HTML] POST /compra/1/
+  status: 200
+  stock libro 1 ahora: 8
+
+--> Ambas puertas descontaron el MISMO inventario usando el MISMO CompraService.
+
+=== LOG DE PAGOS GENERADO (ambas compras) ===
+[2026-10-13 02:56:44.365324] Transaccion exitosa por: $178.50
+[2026-10-13 02:56:44.434117] Transaccion exitosa por: $178.50
