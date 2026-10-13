@@ -37,8 +37,9 @@ python manage.py migrate
 python manage.py seed_datos
 ```
 
-> 💡 El comando `seed_datos` crea el usuario `daniel` (password `test1234`) y
-> tres libros con inventario, de forma idempotente (no duplica si ya existen).
+> 💡 El comando `seed_datos` crea el usuario `daniel` como **superusuario**
+> (password `test1234`) — por lo que puede entrar al `/admin/` — y tres libros
+> con inventario, de forma idempotente (no duplica si ya existen).
 > Evita el error de indentación que ocurre al escribir bucles `for` en el shell
 > interactivo. Si prefieres el shell manual, escribe cada línea por separado
 > (sin usar `for` de varias líneas).

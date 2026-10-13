@@ -26,17 +26,25 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         User = get_user_model()
 
-        # Usuario de prueba (get_or_create evita el error de username duplicado)
+        # Usuario de prueba (get_or_create evita el error de username duplicado).
+        # Se marca como staff + superuser para que pueda entrar al /admin/.
         usuario, creado = User.objects.get_or_create(
             username="daniel",
             defaults={"email": "daniel@test.com"},
         )
+        # Garantizamos permisos de admin y password en cada ejecución
+        usuario.is_staff = True
+        usuario.is_superuser = True
+        usuario.set_password("test1234")
+        usuario.save()
         if creado:
-            usuario.set_password("test1234")
-            usuario.save()
-            self.stdout.write(self.style.SUCCESS("Usuario 'daniel' creado (password: test1234)."))
+            self.stdout.write(self.style.SUCCESS(
+                "Usuario 'daniel' creado como SUPERUSUARIO (password: test1234)."
+            ))
         else:
-            self.stdout.write("Usuario 'daniel' ya existía, se reutiliza.")
+            self.stdout.write(self.style.SUCCESS(
+                "Usuario 'daniel' actualizado a SUPERUSUARIO (password: test1234)."
+            ))
 
         # Libros + inventario
         for titulo, precio in self.LIBROS:
