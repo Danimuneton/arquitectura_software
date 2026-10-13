@@ -1,0 +1,10 @@
+========================================================
+ EVIDENCIA Tutorial 02 - Factory Method (MOCK)
+ Estudiante: Daniel Muneton
+ Comando: PAYMENT_PROVIDER=MOCK python manage.py shell
+========================================================
+
+>> Procesador seleccionado por la Fabrica: MockPaymentProcessor
+>> Productos en la orden: ['Clean Code en Python', 'Arquitectura Limpia']
+[DEBUG] Mock Payment: Procesando pago de $476.0 sin cargo real.
+>> Orden 1 procesada exitosamente.
