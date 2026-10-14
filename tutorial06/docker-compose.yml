@@ -1,0 +1,58 @@
+services:
+  # Base de datos del monolito
+  db:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=tienda_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=secret_password
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # El Monolito (v1): Django + Gunicorn. Renombrado a 'web_django' para que
+  # coincida con los upstreams del nginx.conf.
+  web_django:
+    build: .
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py seed_datos &&
+             gunicorn Tienda.wsgi:application --bind 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - DB_NAME=tienda_db
+      - DB_USER=postgres
+      - DB_PASSWORD=secret_password
+      - DB_HOST=db
+      - DB_PORT=5432
+    # Sin 'ports': Django queda aislado; solo Nginx le habla por la red interna.
+
+  # El Microservicio (v2): Flask — EL ESTRANGULADOR
+  pagos_flask:
+    build: ./microservicio_pagos
+    # El puerto se expone solo para pruebas iniciales directas al microservicio.
+    # En producción se cerraría para forzar el acceso vía Nginx.
+    ports:
+      - "5000:5000"
+
+  # Proxy inverso: enruta v1 -> Django, v2 -> Flask. Único expuesto a internet.
+  nginx:
+    image: nginx:1.25-alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - web_django
+      - pagos_flask
+
+volumes:
+  postgres_data:
