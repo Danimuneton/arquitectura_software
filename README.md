@@ -11,6 +11,7 @@ Cada tutorial vive en su propia carpeta.
 | 02 | [`tutorial02/`](./tutorial02/) | Patrones Creacionales: Factory Method y Builder |
 | 03 | [`tutorial03/`](./tutorial03/) | Introducción a APIs con DRF (Backend Headless) |
 | 04 | [`tutorial04/`](./tutorial04/) | Dockerización y Despliegue en AWS |
+| 05 | [`tutorial05/`](./tutorial05/) | El Escudo Arquitectónico: Nginx + Gunicorn |
 
-> Las siguientes carpetas (`tutorial05/`, …) se irán agregando a medida que el
+> Las siguientes carpetas (`tutorial06/`, …) se irán agregando a medida que el
 > profesor publique nuevos tutoriales.
